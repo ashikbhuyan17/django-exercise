@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block body %}
+
+  
+
+<div class="container">
+    {% for p in posts %}
+    {{p.title}}
+    <br>
+    <hr>
+    <img src="{{p.image.url}}" alt="">
+    <!-- <img src="/media/{{p.image}}" alt=""> -->
+    <br>
+    
+   <h4>{{p.medium}}</h4> 
+    <br>
+    <br>
+{% endfor %}
+</div>
+
+
+{% endblock body %}
+

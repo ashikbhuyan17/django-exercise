@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block body %}
+<style>
+    .requiredField{
+        color:rgb(102, 83, 90);
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    .form-control{
+        border:1px solid rebeccapurple;
+    }
+</style>
+<div class="container" style="width: 700px;">
+    <h3>Contacts Form</h3>
+</div>
+<hr>
+<br>
+<div class="container" style="width: 700px;">
+    <form role="form"  method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<br>
+<hr>
+<div class="container" style="width: 700px;">
+    {% for shows in show_data %}
+<h5><b>{{ shows }}</b></h5>
+
+{{ shows.message }}
+<br>
+{% endfor %}
+</div>
+
+
+{% endblock body %}
+
