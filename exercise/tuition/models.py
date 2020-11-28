@@ -7,7 +7,7 @@ from PIL import Image
 from django.utils.text import slugify
 #-------------------------------MultiSelectField----------
 from multiselectfield import MultiSelectField
-#-------------------------------user can post multiple time ----------
+#-------------------------------user can post multiple/one  time ----------
 from django.contrib.auth.models import User
 
 class contact(models.Model):
@@ -19,6 +19,19 @@ class contact(models.Model):
     def __str__(self):
         return self.name
 
+
+# -------------------------Many to Many fields :_____________________________
+class Subject(models.Model):
+    name = models.CharField(max_length = 150)
+
+    def __str__(self):
+        return self.name
+
+class Class_in(models.Model):
+    name = models.CharField(max_length = 150)
+    def __str__(self):
+        return self.name
+       
 
 class post(models.Model):
     CATEGORY=(
@@ -45,15 +58,20 @@ class post(models.Model):
     details = models.TextField()
 # choices field ---------------------------
     category = models.CharField(max_length=50, choices=CATEGORY)
+#-------------------------timezone----------------
     created_at = models.DateTimeField(default=now)
 #-------------------------image----------------
 
-    image = models.ImageField(default='default.jpg',upload_to='tuition/images')
+    image = models.ImageField(upload_to='tuition/images/')
 
 #-------------------------------MultiSelectField----------
     medium =MultiSelectField(max_length = 300,max_choices=5,choices=MEDIUM,default='bangla')
     
+# -------------------------Many to Many fields :_____________________________
+    subject = models.ManyToManyField(Subject,related_name='subject_set')
+    class_in = models.ManyToManyField(Class_in,related_name='class_set')
 
+    
 
 
     def save(self,*args, **kwargs):

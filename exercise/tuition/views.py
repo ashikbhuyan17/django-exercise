@@ -1,7 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .models import contact,post
 
-from .forms import contactmodForm
+from .forms import contactmodForm,postForm
 # Create your views here.g hjg
 
 def index(request):
@@ -95,6 +96,32 @@ def contactmodelForm(request):
 
     return render(request, 'contractForm.html', context)
 
+def postcreate(request):
+    if request.method=="POST":
+        form=postForm(request.POST,request.FILES)
+        if form.is_valid():
+            obj=form.save(commit=False)
+            obj.user=request.user
+            # user value tho form nicce na so form save o hbe na tay commit=False dewa holo and user value dewar jonno obj.user=request.user likte hbe 
+            obj.save()
+            sub=form.cleaned_data['subject']
+            for i in sub:
+                obj.subject.add(i)
+                obj.save()
+            class_in=form.cleaned_data['class_in']
+            for i in class_in:
+                obj.class_in.add(i)
+                obj.save()
+            return HttpResponse("success")
+                
+
+    else:
+        form=postForm()    
+
+    context={
+        'form':form
+    }        
+    return render(request,'tuition/postcreate.html',context)
 
 def postview(request):
     posts = post.objects.all()
@@ -102,5 +129,8 @@ def postview(request):
         'posts':posts
     }
     return render(request,'postview.html',context)
+
+
+
 
 
