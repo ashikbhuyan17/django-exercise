@@ -123,6 +123,39 @@ def postcreate(request):
     }        
     return render(request,'tuition/postcreate.html',context)
 
+
+def bmi(request):
+    return render(request, 'bmi.html')
+
+
+def result(request):
+    if request.method=="GET":
+
+        height = int(request.GET['height'])
+        width = int(request.GET['width'])
+        inches = int(request.GET['inches'])
+        print(type(inches))
+        con=float((height * 12 + inches)*0.0254)
+        print(type(con))
+        print(con)
+
+        h = float(con*con)
+        print(type(h))
+        print(h)
+        bm= width/h
+        print(bm)
+        context={
+            'var1' : 18.5,
+            'var2' : 24.9,
+            'var3' : 29.9,
+            'bm':bm,
+
+        }
+    
+        
+        return render(request, 'bmi.html', context)
+    
+
 def postview(request):
     posts = post.objects.all()
     context={
@@ -133,4 +166,4 @@ def postview(request):
 
 
 
-
+    
